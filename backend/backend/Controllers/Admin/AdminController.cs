@@ -7,9 +7,11 @@ using backend.Services.User;
 using backend.Models.Entities;
 using backend.Services;
 using backend.Models.ViewModel;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace backend.Controllers.Admin
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("Admin/[controller]")]
     public class AdminController : Controller
     {
@@ -28,7 +30,7 @@ namespace backend.Controllers.Admin
             _doctorService = doctorService;
         }
 
-        [HttpGet]
+        [HttpGet("Login")]
         public IActionResult Login(string? returnUrl = null)
         {
             if (User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
@@ -40,7 +42,7 @@ namespace backend.Controllers.Admin
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string email, string password, string? returnUrl = null)
         {
@@ -106,12 +108,13 @@ namespace backend.Controllers.Admin
 
             return RedirectToLocal(returnUrl);
         }
+        [HttpGet("Index")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("Logout")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
@@ -119,6 +122,7 @@ namespace backend.Controllers.Admin
             return RedirectToAction("Login", "Admin");
         }
 
+        [HttpGet("AccessDenied")]
         public IActionResult AccessDenied()
         {
             return View();

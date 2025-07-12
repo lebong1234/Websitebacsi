@@ -23,6 +23,10 @@ namespace backend.Controllers
         public async Task<IActionResult> GetByDoctorId(string doctorId)
         {
             var schedules = await _scheduleService.GetDoctorScheduleByDoctorIdAsync(doctorId);
+            foreach (var schedule in schedules)
+            {
+                schedule.TimeSlots = schedule.TimeSlots?.Where(ts => ts.IsAvailable && !ts.IsBooked).ToList() ?? new List<DoctorSchedule.TimeSlot>();
+            }
             return Ok(schedules);
         }
 
@@ -71,13 +75,15 @@ namespace backend.Controllers
             return Ok(grouped);
         }
 
+        // GET: api/DoctorSchedule/doctor/{doctorId}/date/{date}
         [HttpGet("doctor/{doctorId}/date/{date}")]
         public async Task<IActionResult> GetScheduleByDoctorAndDate(string doctorId, string date)
         {
             var schedule = await _scheduleService.GetByDoctorIdAndDateAsync(doctorId, date);
             if (schedule == null)
-                return Ok(new List<DoctorSchedule.TimeSlot>());
-            return Ok(schedule.TimeSlots);
+                return Ok(new List<DoctorSchedule.TimeSlot>()); // Không có lịch thì trả về mảng rỗng
+            var slots = schedule.TimeSlots?.Where(ts => ts.IsAvailable && !ts.IsBooked).ToList() ?? new List<DoctorSchedule.TimeSlot>();
+            return Ok(slots); // Trả về slot còn trống
         }
 
         [HttpPost("doctor/{doctorId}/date/{date}/add-slot")]

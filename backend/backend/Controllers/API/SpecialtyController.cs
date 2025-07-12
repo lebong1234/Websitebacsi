@@ -28,7 +28,6 @@
                     SpecialtyName = dto.SpecialtyName,
                     Description = dto.Description,
                     DepartmentId = dto.DepartmentId,
-                    ImageFile = dto.ImageFile
                 };
 
                 try

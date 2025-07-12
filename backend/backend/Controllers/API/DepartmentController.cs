@@ -15,14 +15,6 @@ namespace backend.Controllers.API
             _departmentService = departmentService;
         }
 
-        // GET: api/department
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var departments = await _departmentService.GetAllDepartments();
-            return Ok(departments);
-        }
-
         // GET: api/department/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
@@ -32,6 +24,14 @@ namespace backend.Controllers.API
                 return NotFound();
 
             return Ok(department);
+        }
+
+        // GET: api/department/all
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var departments = await _departmentService.GetAllDepartments();
+            return Ok(departments);
         }
 
         // POST: api/department

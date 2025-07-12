@@ -52,13 +52,15 @@ builder.Services.AddSingleton<IMongoClient>(sp => new MongoClient(mongoDbSetting
 // builder.Services.AddSingleton<backend.Services.GoogleAuth.IGoogleAuthService, backend.Services.GoogleAuth.GoogleAuthService>();
 // Đăng ký IMongoDatabase (Scoped)
 
+// Đăng ký PayOS an toàn, kiểm tra null config
 builder.Services.AddSingleton<PayOS>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
-    string clientId = configuration["PayOS:ClientId"] ?? throw new InvalidOperationException("PayOS ClientId not configured");
-    string apiKey = configuration["PayOS:ApiKey"] ?? throw new InvalidOperationException("PayOS ApiKey not configured");
-    string checksumKey = configuration["PayOS:ChecksumKey"] ?? throw new InvalidOperationException("PayOS ChecksumKey not configured");
-
+    string clientId = configuration["PayOS:ClientId"];
+    string apiKey = configuration["PayOS:ApiKey"];
+    string checksumKey = configuration["PayOS:ChecksumKey"];
+    if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(checksumKey))
+        throw new InvalidOperationException("PayOS config missing in appsettings. Please check PayOS:ClientId, ApiKey, ChecksumKey.");
     return new PayOS(clientId, apiKey, checksumKey);
 });
 
@@ -187,13 +189,14 @@ builder.Services.AddSwaggerGen(c =>
         Description = "API for Clinic Management Application",
         Contact = new OpenApiContact { Name = "Your Name", Email = "your.email@example.com" }
     });
-
+    // Nếu không có file XML doc, không cần IncludeXmlComments
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     if (File.Exists(xmlPath))
     {
         c.IncludeXmlComments(xmlPath);
     }
+    c.CustomSchemaIds(type => type.FullName);
 });
 
 // === Đảm bảo thư mục uploads tồn tại trước khi Build() ===

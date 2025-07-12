@@ -7,6 +7,8 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode"; // Đảm bảo đã cài đặt: npm install jwt-decode
 
 // THAY THẾ BẰNG GOOGLE CLIENT ID THỰC TẾ CỦA BẠN
+// Đảm bảo đã thêm http://localhost:5173 vào Authorized JavaScript origins trong Google Console
+// Nếu gặp lỗi 403, hãy kiểm tra cấu hình OAuth trong Google Cloud Console
 const GOOGLE_CLIENT_ID = "1036533988820-ii0k3nhfc17j7i797auih5v0k8u7es85.apps.googleusercontent.com";
 
 const LoginContent = () => {
@@ -185,8 +187,11 @@ const LoginContent = () => {
   const handleGoogleLoginError = (errorResponse) => {
     console.error('Lỗi đăng nhập Google từ phía Google:', errorResponse);
     let message = 'Đăng nhập với Google thất bại. Vui lòng thử lại.';
-    // Thư viện @react-oauth/google có thể trả về errorResponse là undefined nếu user đóng popup
-    if (errorResponse && errorResponse.type === 'popup_closed') {
+    
+    // Kiểm tra lỗi origin không được phép
+    if (errorResponse && errorResponse.error === 'origin_mismatch') {
+      message = 'Lỗi cấu hình Google OAuth: Origin không được phép. Vui lòng liên hệ admin để cấu hình.';
+    } else if (errorResponse && errorResponse.type === 'popup_closed') {
       message = 'Bạn đã đóng cửa sổ đăng nhập Google.';
     } else if (errorResponse && errorResponse.error) {
       // Các lỗi chuẩn từ Google OAuth

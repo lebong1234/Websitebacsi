@@ -1,7 +1,5 @@
-// Services/ISpecialtyService.cs
 using backend.Models.Entities;
 using backend.Models.ViewModel;
-using backend.ViewModels;
 
 namespace backend.Services
 {
@@ -13,6 +11,5 @@ namespace backend.Services
         Task UpdateSpecialty(string id, SpecialtyViewModel specialtyVM);
         Task DeleteSpecialty(string id);
         Task<List<Specialty>> GetByDepartmentIdAsync(string departmentId);
-
     }
 }

@@ -22,7 +22,7 @@ const apiDepartment = axios.create({
 
 // Specialty
 const apiSpecialty = axios.create({
-    baseURL: `${API_SERVER_URL}/api/specialty`,
+    baseURL: `${API_SERVER_URL}/api/Specialty`,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -61,11 +61,11 @@ export async function getBranchs() {
 
 export async function getDepartment() {
     try {
-        const response = await apiDepartment.get('/');
-        // Đảm bảo mỗi department có 'idDepartment' duy nhất và hợp lệ
+        // Sửa lại endpoint cho đúng backend
+        const response = await apiDepartment.get('/all');
         return response.data.map((dept, index) => ({
             ...dept,
-            idDepartment: dept.idDepartment || `dept-${Date.now()}-${index}` // Fallback
+            idDepartment: dept.idDepartment || `dept-${Date.now()}-${index}`
         }));
     } catch (error) {
         console.error("Error fetching departments:", error);
@@ -80,28 +80,10 @@ export async function getDepartment() {
 }
 
 
-export async function getSpecialtiesByDepartment(idDepartment) {
-    if (!idDepartment) {
-        console.warn("idDepartment is undefined, cannot fetch specialties.");
-        return [];
-    }
-    try {
-        const response = await apiSpecialty.get(`/by-department/${idDepartment}`);
-        // Đảm bảo mỗi specialty có 'idSpecialty' duy nhất và hợp lệ
-        return response.data.map((spec, index) => ({
-            ...spec,
-            idSpecialty: spec.idSpecialty || `spec-${Date.now()}-${index}` // Fallback
-        }));
-    } catch (error) {
-        console.error(`Error fetching specialties for department ${idDepartment}:`, error);
-        if (error.response?.status === 404) {
-            return []; // Trả về mảng rỗng nếu không tìm thấy, không coi là lỗi nghiêm trọng
-        }
-        // Không throw error ở đây nữa để UI không bị vỡ, chỉ log lỗi
-        // throw new Error('Lỗi khi lấy chuyên khoa: ' + error.message);
-        return []; // Trả về mảng rỗng khi có lỗi khác
-    }
-}
+export const getSpecialtiesByDepartment = async (idDepartment) => {
+ const response = await apiSpecialty.get(`/by-department/${idDepartment}`);
+  return response.data || [];
+};
 
 // BookingService.js
 const API_URL = 'http://localhost:2000/api/DoctorDetail';
@@ -224,8 +206,9 @@ export const getAppointmentsByDoctorId = async (doctorId) => {
         return [];
     }
     try {
+        // Đúng route backend: /api/booking/appointments/doctor/{doctorId}
         const response = await axios.get(`${API_SERVER_URL}/api/booking/appointments/doctor/${doctorId}`);
-        return response.data; // Backend nên trả về danh sách hoặc 404 nếu không có.
+        return response.data || [];
     } catch (error) {
         console.error(`Error fetching appointments for doctor ${doctorId}:`, error);
         if (error.response) {
@@ -324,4 +307,12 @@ export async function createAppointmentAndGetPaymentLink(appointment) {
         throw new Error(error.response?.data?.message || 'Không thể tạo lịch và lấy link thanh toán!');
     }
 }
+
+// Tìm bác sĩ theo chi nhánh, khoa, chuyên khoa
+export const getDoctorsByCriteria = async (branchId, departmentId, specialtyId) => {
+  const response = await axios.get(`${API_SERVER_URL}/api/DoctorDetail/search-by-criteria`, {
+    params: { branchId, departmentId, specialtyId }
+  });
+  return response.data || [];
+};
 

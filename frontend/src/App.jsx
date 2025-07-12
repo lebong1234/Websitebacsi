@@ -34,7 +34,7 @@ function App() {
         <Route path="/department" element={<Department />} />
         <Route path="/login" element={<Login />} />
         <Route path="/showdr" element={<DoctorListPage />} />
-        <Route path="/drdetail" element={<ShowDetailDoctor />} />
+        <Route path="/showdrdetail" element={<ShowDetailDoctor />} />
         <Route path="/ai" element={<AI />} />
         <Route path="/new" element={<New />} />
         <Route path="/my-profile" element={<MyProfile />} />

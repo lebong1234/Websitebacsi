@@ -1,5 +1,4 @@
-﻿// Controllers/SpecialtyController.cs
-using backend.Models.ViewModel;
+﻿using backend.Models.ViewModel;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,26 +15,19 @@ namespace backend.Controllers
             _departmentService = departmentService;
         }
 
-        // GET: Specialty
         public async Task<IActionResult> Index()
         {
             var specialties = await _specialtyService.GetAllSpecialties();
             return View(specialties);
         }
 
-        // GET: Specialty/Details/5
         public async Task<IActionResult> Details(string id)
         {
             var specialty = await _specialtyService.GetSpecialtyById(id);
-            if (specialty == null)
-            {
-                return NotFound();
-            }
-
+            if (specialty == null) return NotFound();
             return View(specialty);
         }
 
-        // GET: Specialty/Create
         public async Task<IActionResult> Create()
         {
             var departments = await _departmentService.GetAllDepartments();
@@ -43,7 +35,6 @@ namespace backend.Controllers
             return View();
         }
 
-        // POST: Specialty/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SpecialtyViewModel specialtyVM)
@@ -59,14 +50,10 @@ namespace backend.Controllers
             return View(specialtyVM);
         }
 
-        // GET: Specialty/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             var specialty = await _specialtyService.GetSpecialtyById(id);
-            if (specialty == null)
-            {
-                return NotFound();
-            }
+            if (specialty == null) return NotFound();
 
             var departments = await _departmentService.GetAllDepartments();
             ViewBag.Departments = departments;
@@ -78,11 +65,9 @@ namespace backend.Controllers
                 DepartmentId = specialty.Department.IdDepartment
             };
 
-            ViewBag.ImageUrl = specialty.ImageUrl;
             return View(specialtyVM);
         }
 
-        // POST: Specialty/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, SpecialtyViewModel specialtyVM)
@@ -98,19 +83,13 @@ namespace backend.Controllers
             return View(specialtyVM);
         }
 
-        // GET: Specialty/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             var specialty = await _specialtyService.GetSpecialtyById(id);
-            if (specialty == null)
-            {
-                return NotFound();
-            }
-
+            if (specialty == null) return NotFound();
             return View(specialty);
         }
 
-        // POST: Specialty/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

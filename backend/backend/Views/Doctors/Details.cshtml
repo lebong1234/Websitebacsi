@@ -136,7 +136,7 @@ else
                 {
                     if (schedule.TimeSlots != null && schedule.TimeSlots.Any())
                     {
-                        foreach (var slot in schedule.TimeSlots)
+                        foreach (var slot in schedule.TimeSlots.Where(s => s.IsAvailable))
                         {
                             <tr>
                                 <td>@schedule.Date</td>

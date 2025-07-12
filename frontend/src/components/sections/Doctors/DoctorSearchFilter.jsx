@@ -1,11 +1,11 @@
 import React from 'react';
-import { FaSearch, FaUndo, FaClinicMedical, FaHospital, FaProcedures, FaUserMd } from 'react-icons/fa';
+import { FaSearch, FaUndo, FaProcedures, FaHospital, FaUserMd } from 'react-icons/fa';
 
 const DoctorSearchFilter = ({ onSearch, searchFilters, setSearchFilters, departments = [], specialties = [], branches = [] }) => {
   const handleInputChange = (field, value) => {
     setSearchFilters(prev => ({
       ...prev,
-      [field]: value
+      [field]: value === '' ? '' : value
     }));
   };
   const handleReset = () => {

@@ -19,8 +19,6 @@ namespace backend.Models.Entities
 
         [BsonElement("Department")]
         public DepartmentRef? Department { get; set; } // Thay đổi từ DepartmentId sang object Department
-        [BsonElement("ImageUrl")]
-        public string ImageUrl { get; set; } = string.Empty;
 
         [BsonElement("CreatedAt")]
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]

@@ -42,12 +42,19 @@ export async function loginUser(loginDto) {
         return user;
     } catch (error) {
         if (error.response) {
-            if (error.response.status === 409) {
+            if (error.response.status === 401) {
+                // Lỗi xác thực
+                throw new Error(error.response.data?.message || 'Email hoặc mật khẩu không đúng');
+            } else if (error.response.status === 409) {
                 // Lỗi trùng email hoặc phone
-                throw new Error(error.response.data || 'Email hoặc mật khẩu không đúng');
+                throw new Error(error.response.data?.message || 'Email hoặc số điện thoại đã tồn tại.');
+            } else if (error.response.status === 500) {
+                // Lỗi server
+                console.error('Server error:', error.response.data);
+                throw new Error('Lỗi server. Vui lòng thử lại sau.');
             }
             // Lỗi khác từ server
-            throw new Error('Đăng nhập thất bại: ' + JSON.stringify(error.response.data));
+            throw new Error('Đăng nhập thất bại: ' + (error.response.data?.message || JSON.stringify(error.response.data)));
         } else if (error.request) {
             // Lỗi không nhận được phản hồi
             throw new Error('Không nhận được phản hồi từ server.');

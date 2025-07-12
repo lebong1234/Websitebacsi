@@ -459,6 +459,11 @@
                                     <div class="col"><input type="time" class="form-control" value="${slot.endTime}" onchange="updateTimeSlot(${dayIdx},${slotIdx},'endTime',this.value)" placeholder="Kết thúc" /></div>
                                     <div class="col"><input type="number" class="form-control" value="${slot.consultationFee}" min="0" step="1000" onchange="updateTimeSlot(${dayIdx},${slotIdx},'consultationFee',this.value)" placeholder="Phí khám" /></div>
                                     <div class="col"><input type="number" class="form-control" value="${slot.examinationTime}" min="5" onchange="updateTimeSlot(${dayIdx},${slotIdx},'examinationTime',this.value)" placeholder="Thời gian khám" /></div>
+                                    <div class="col">
+                                        <label>
+                                            <input type="checkbox" class="form-check-input" onchange="updateTimeSlot(${dayIdx},${slotIdx},'isAvailable',this.checked)" ${slot.isAvailable !== false ? 'checked' : ''} /> Rảnh
+                                        </label>
+                                    </div>
                                 </div>
                             </td>`;
                             html += `<td>
@@ -483,7 +488,7 @@
             renderScheduleTable();
         }
         function addTimeSlot(dayIdx) {
-            scheduleData[dayIdx].timeSlots.push({ startTime: '', endTime: '', consultationFee: 0, examinationTime: 15 });
+            scheduleData[dayIdx].timeSlots.push({ startTime: '', endTime: '', consultationFee: 0, examinationTime: 15, isAvailable: true });
             renderScheduleTable();
         }
         function removeTimeSlot(dayIdx, slotIdx) {
@@ -495,7 +500,13 @@
             renderScheduleTable();
         }
         function updateTimeSlot(dayIdx, slotIdx, field, value) {
-            scheduleData[dayIdx].timeSlots[slotIdx][field] = field === 'consultationFee' || field === 'examinationTime' ? parseInt(value) : value;
+            if (field === 'consultationFee' || field === 'examinationTime') {
+                scheduleData[dayIdx].timeSlots[slotIdx][field] = parseInt(value);
+            } else if (field === 'isAvailable') {
+                scheduleData[dayIdx].timeSlots[slotIdx][field] = value;
+            } else {
+                scheduleData[dayIdx].timeSlots[slotIdx][field] = value;
+            }
             renderScheduleTable();
         }
         // Serialize scheduleData before submit

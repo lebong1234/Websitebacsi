@@ -142,14 +142,6 @@ const Header = () => {
                 </li>
               </ul>
             </nav>
-
-            {/* Nếu đã đăng nhập, hiển thị user, bỏ hamburger menu */}
-            {currentUser && (
-              <button className="flex items-center space-x-2 ml-4" onClick={()=>navigate('/my-profile')}>
-                <FaUser className="text-xl" />
-                <span>{currentUser.name || currentUser.email}</span>
-              </button>
-            )}
           </div>
         </div>
       </div>

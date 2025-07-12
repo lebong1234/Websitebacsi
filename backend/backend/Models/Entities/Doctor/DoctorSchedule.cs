@@ -1,3 +1,4 @@
+// File: backend/Models/Entities/Doctor/DoctorSchedule.cs
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
@@ -27,5 +28,10 @@ public class DoctorSchedule
         public string EndTime { get; set; } = string.Empty;   // format "HH:mm"
         public int ConsultationFee { get; set; }
         public int ExaminationTime { get; set; } // minutes
+        
+        // --- THÊM DÒNG NÀY ---
+        // Mặc định là false, nghĩa là khung giờ này chưa có ai đặt
+        public bool IsBooked { get; set; } = false;
+        public bool IsAvailable { get; set; } = true; // true: rảnh, false: bận
     }
 }

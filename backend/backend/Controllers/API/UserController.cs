@@ -4,6 +4,7 @@ using backend.Models.Entities;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
+using backend.Helper;
 
 namespace backend.Controllers.API
 {
@@ -11,12 +12,13 @@ namespace backend.Controllers.API
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IMongoCollection<User> _users;
-        private readonly IMongoCollection<Patient> _patients;
-        public UserController(IMongoDatabase db)
+        private readonly IMongoDatabase _database;
+        private readonly IBcryptHelper _bcryptHelper;
+        
+        public UserController(IMongoDatabase database, IBcryptHelper bcryptHelper)
         {
-            _users = db.GetCollection<User>("Users");
-            _patients = db.GetCollection<Patient>("Patients");
+            _database = database;
+            _bcryptHelper = bcryptHelper;
         }
 
         [HttpPost("register")]
@@ -26,7 +28,10 @@ namespace backend.Controllers.API
                 return BadRequest(ModelState);
 
             // Check duplicate email
-            var existingUser = await _users.Find(u => u.Email == dto.Email).FirstOrDefaultAsync();
+            var usersCollection = _database.GetCollection<User>("Users");
+            var patientsCollection = _database.GetCollection<Patient>("Patients");
+            
+            var existingUser = await usersCollection.Find(u => u.Email == dto.Email).FirstOrDefaultAsync();
             if (existingUser != null)
                 return Conflict(new { message = "Email đã tồn tại." });
 
@@ -42,7 +47,7 @@ namespace backend.Controllers.API
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
-            await _patients.InsertOneAsync(patient);
+            await patientsCollection.InsertOneAsync(patient);
 
             // Create User
             var user = new User
@@ -55,21 +60,55 @@ namespace backend.Controllers.API
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
-            await _users.InsertOneAsync(user);
+            await usersCollection.InsertOneAsync(user);
 
             // Update patient with userId
             var update = Builders<Patient>.Update.Set(p => p.UserId, user.Id);
-            await _patients.UpdateOneAsync(p => p.Id == patient.Id, update);
+            await patientsCollection.UpdateOneAsync(p => p.Id == patient.Id, update);
 
             return Ok(new { message = "Đăng ký thành công", user = new { user.Id, user.Email }, patient = new { patient.Id, patient.FullName } });
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // Find user by email
+            var usersCollection = _database.GetCollection<User>("Users");
+            var patientsCollection = _database.GetCollection<Patient>("Patients");
+            
+            var user = await usersCollection.Find(u => u.Email == dto.Email).FirstOrDefaultAsync();
+            if (user == null)
+                return Unauthorized(new { message = "Email hoặc mật khẩu không đúng" });
+
+            // Verify password
+            if (!_bcryptHelper.VerifyPassword(dto.Password!, user.Password))
+                return Unauthorized(new { message = "Email hoặc mật khẩu không đúng" });
+
+            // Get patient information
+            var patient = await patientsCollection.Find(p => p.UserId == user.Id).FirstOrDefaultAsync();
+
+            return Ok(new { 
+                message = "Đăng nhập thành công",
+                id = user.Id,
+                email = user.Email,
+                name = patient?.FullName ?? user.Name,
+                phone = patient?.Phone,
+                role = user.Role
+            });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserProfile(string id)
         {
-            var user = await _users.Find(u => u.Id == id).FirstOrDefaultAsync();
+            var usersCollection = _database.GetCollection<User>("Users");
+            var patientsCollection = _database.GetCollection<Patient>("Patients");
+            
+            var user = await usersCollection.Find(u => u.Id == id).FirstOrDefaultAsync();
             if (user == null) return NotFound();
-            var patient = await _patients.Find(p => p.UserId == id).FirstOrDefaultAsync();
+            var patient = await patientsCollection.Find(p => p.UserId == id).FirstOrDefaultAsync();
             return Ok(new {
                 id = user.Id,
                 name = user.Name,

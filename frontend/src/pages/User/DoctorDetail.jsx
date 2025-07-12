@@ -1,167 +1,163 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-// Helper: star rating display
-const StarRating = ({ rating }) => {
-  const fullStars = Math.floor(rating);
-  const halfStar = rating - fullStars >= 0.5;
-  const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-  return (
-    <div className="flex items-center space-x-1 text-yellow-400">
-      {[...Array(fullStars)].map((_, i) => (
-        <svg key={'full' + i} className="w-5 h-5 fill-current" viewBox="0 0 20 20">
-          <path d="M10 15l-5.878 3.09 1.122-6.545L.488 7.91l6.564-.955L10 1.5l2.948 5.455 6.564.955-4.756 4.635 1.122 6.545z" />
-        </svg>
-      ))}
-      {halfStar && (
-        <svg className="w-5 h-5 fill-current" viewBox="0 0 20 20">
-          <defs>
-            <linearGradient id="halfGrad">
-              <stop offset="50%" stopColor="currentColor" />
-              <stop offset="50%" stopColor="transparent" stopOpacity="1" />
-            </linearGradient>
-          </defs>
-          <path fill="url(#halfGrad)" d="M10 15l-5.878 3.09 1.122-6.545L.488 7.91l6.564-.955L10 1.5l2.948 5.455 6.564.955-4.756 4.635 1.122 6.545z" />
-        </svg>
-      )}
-      {[...Array(emptyStars)].map((_, i) => (
-        <svg key={'empty' + i} className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10 15l-5.878 3.09 1.122-6.545L.488 7.91l6.564-.955L10 1.5l2.948 5.455 6.564.955-4.756 4.635 1.122 6.545z" />
-        </svg>
-      ))}
-    </div>
-  );
-};
-
-const Review = ({ user, comment, rating, date }) => (
-  <div className="border-b border-gray-200 py-4 last:border-none">
-    <div className="flex justify-between items-center">
-      <p className="font-semibold text-gray-800">{user}</p>
-      <span className="text-sm text-gray-500">{new Date(date).toLocaleDateString()}</span>
-    </div>
-    <StarRating rating={rating} />
-    <p className="mt-2 text-gray-700">{comment}</p>
-  </div>
-);
+import { Phone, Mail, Stethoscope, Home, Building, Calendar, Award } from 'lucide-react';
+import doctorService from '../../services/doctorService';
 
 const DoctorDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [doctor, setDoctor] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  const [showMoreQual, setShowMoreQual] = React.useState(false);
-  const [showMoreExp, setShowMoreExp] = React.useState(false);
+  const [doctor, setDoctor] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchDoctor = async () => {
-      setLoading(true);
-      // Kiểm tra id hợp lệ (24 ký tự hex)
-      if (!id || typeof id !== 'string' || id.length !== 24) {
-        setDoctor({ error: 'ID bác sĩ không hợp lệ!' });
+      if (!id) {
+        setError('ID bác sĩ không hợp lệ!');
         setLoading(false);
         return;
       }
+      setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:2000/api/Doctor/${id}/fullinfo`);
-        console.log('Doctor detail API response:', res.data);
-        if (res.data && res.data.message) {
-          setDoctor({ error: res.data.message });
-        } else {
-          setDoctor(res.data);
-        }
+        const data = await doctorService.getDoctorFullInfo(id);
+        setDoctor(data);
       } catch (err) {
-        setDoctor({ error: err?.response?.data?.message || err.message });
-        console.error('Doctor detail API error:', err?.response?.data || err.message);
+        setError(err?.response?.data?.message || err.message || 'Không thể tải thông tin bác sĩ.');
       }
       setLoading(false);
     };
     fetchDoctor();
   }, [id]);
-
+  
   if (loading) return <div className="text-center py-20 text-gray-600 text-xl">Đang tải thông tin bác sĩ...</div>;
+  if (error) return <div className="text-center py-20 text-red-600 text-xl">{error}</div>;
   if (!doctor) return <div className="text-center py-20 text-gray-600 text-xl">Không tìm thấy bác sĩ</div>;
-  if (doctor.error) return <div className="text-center py-20 text-red-600 text-xl">{doctor.error}</div>;
-
-  const { Doctor: doc, DoctorDetail: detail, BranchName, DepartmentName, SpecialtyName } = doctor;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10 md:py-16">
-      {/* Back button */}
-      <button 
-        onClick={() => navigate(-1)} 
-        className="mb-6 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
-        aria-label="Trở lại trang trước"
-      >
-        <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
-        Trở lại
-      </button>
+    <div className="bg-gray-50 min-h-screen">
+      <div className="max-w-6xl mx-auto px-4 py-10 md:py-16">
+        <button 
+          onClick={() => navigate(-1)} 
+          className="mb-6 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+          aria-label="Trở lại trang trước"
+        >
+          <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          Trở lại
+        </button>
 
-      <div className="flex flex-col md:flex-row gap-10">
-        {/* Left section: Image and info */}
-        <div className="md:w-1/3 flex flex-col items-center text-center">
-          <img
-            src={detail?.Img || '/default-doctor.png'}
-            alt={`Dr. ${doc?.Name}`}
-            className="rounded-full w-48 h-48 object-cover shadow-lg"
-          />
-          <h1 className="mt-4 text-3xl font-bold text-gray-900">{doc?.Name}</h1>
-          <p className="text-lg text-gray-600 mt-1">{detail?.Degree}</p>
-          <p className="text-blue-600 font-semibold mt-2 text-xl">{SpecialtyName}</p>
-          <p className="text-gray-800 font-semibold mt-4 text-2xl">{DepartmentName}</p>
-          <button 
-            className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md shadow-md transition duration-300"
-            onClick={() => alert('Chức năng đặt khám sẽ được phát triển sau.')}
-          >
-            Đặt khám
-          </button>
-        </div>
-
-        {/* Right section: Details */}
-        <div className="md:w-2/3 space-y-10">
-          {/* Overview */}
-          <section>
-            <h2 className="text-2xl font-semibold text-gray-900 border-b border-gray-300 pb-2 mb-4">Giới thiệu</h2>
-            <p className="text-gray-700 leading-relaxed">{detail?.Description || 'Chưa có mô tả.'}</p>
-          </section>
-
-          {/* Qualifications */}
-          <section>
-            <h2 className="text-2xl font-semibold text-gray-900 border-b border-gray-300 pb-2 mb-4">Văn bằng</h2>
-            <ul className="list-disc list-inside text-gray-700 space-y-1 max-h-36 overflow-hidden transition-all duration-300"
-              style={{ maxHeight: showMoreQual ? '9999px' : '9rem' }}
-            >
-              <li>{detail?.Degree}</li>
-            </ul>
-          </section>
-
-          {/* Experience */}
-          <section>
-            <h2 className="text-2xl font-semibold text-gray-900 border-b border-gray-300 pb-2 mb-4">Kinh nghiệm</h2>
-            <ul className="list-disc list-inside text-gray-700 space-y-1 max-h-36 overflow-hidden transition-all duration-300"
-              style={{ maxHeight: showMoreExp ? '9999px' : '9rem' }}
-              id="experience-list"
-            >
-              <li>{detail?.Description}</li>
-            </ul>
-          </section>
-
-          {/* Ratings and Reviews */}
-          <section>
-            <h2 className="text-2xl font-semibold text-gray-900 border-b border-gray-300 pb-2 mb-4">Đánh giá</h2>
-            <div className="flex items-center mb-4">
-              <StarRating rating={doctor.ratings || 0} />
-              <p className="ml-3 text-gray-700 font-medium">{(doctor.ratings || 0).toFixed(1)} / 5</p>
-              <p className="ml-2 text-gray-600">({(doctor.reviews ? doctor.reviews.length : 0)} đánh giá)</p>
+        <div className="bg-white rounded-lg shadow-xl p-6 md:p-8">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+            {/* Cột trái: Ảnh và thông tin cơ bản */}
+            <div className="md:w-1/3 flex flex-col items-center text-center flex-shrink-0">
+              <img
+                src={doctor.img && doctor.img !== '' ? doctor.img : '/default-doctor.png'}
+                alt={doctor.name && doctor.name !== '' ? `Bác sĩ ${doctor.name}` : 'Bác sĩ'}
+                className="rounded-full w-48 h-48 object-cover shadow-lg border-4 border-white bg-white"
+                onError={e => { e.target.onerror = null; e.target.src = '/default-doctor.png'; }}
+              />
+              <h1 className="mt-4 text-3xl font-bold text-gray-900 text-center w-full">{doctor.name && doctor.name !== '' ? doctor.name : <span className="italic text-gray-400">Bác sĩ chưa cập nhật tên</span>}</h1>
+              <div className="mt-2 space-y-1 text-sm text-gray-500 text-center">
+                {doctor.gender && <div>Giới tính: {doctor.gender === 'Male' ? 'Nam' : doctor.gender === 'Female' ? 'Nữ' : 'Khác'}</div>}
+                {doctor.dateOfBirth && <div>Ngày sinh: {new Date(doctor.dateOfBirth).toLocaleDateString('vi-VN')}</div>}
+                {doctor.cccd && <div>CCCD: {doctor.cccd}</div>}
+                {(doctor.rating > 0) && <div>Đánh giá: ⭐ {doctor.rating} {doctor.reviewCount > 0 && `(${doctor.reviewCount} đánh giá)`}</div>}
+              </div>
+              <div className="mt-4 space-y-2 text-left w-full">
+                <div className="flex items-center text-gray-700">
+                    <Stethoscope className="w-5 h-5 mr-3 text-blue-500 flex-shrink-0" />
+                    <span className="font-semibold">{doctor.specialtyName}</span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                    <Building className="w-5 h-5 mr-3 text-blue-500 flex-shrink-0" />
+                    <span>{doctor.departmentName}</span>
+                </div>
+                <div className="flex items-center text-gray-700">
+                    <Home className="w-5 h-5 mr-3 text-blue-500 flex-shrink-0" />
+                    <span>{doctor.branchName}</span>
+                </div>
+              </div>
+              
+              <button
+                className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-colors duration-200"
+                onClick={() => navigate(`/showdr/${doctor.id || doctor._id}`)}
+              >
+                Đặt lịch khám
+              </button>
             </div>
-            <div className="space-y-6 max-h-80 overflow-y-auto pr-3">
-              {(doctor.reviews && doctor.reviews.length > 0) ? doctor.reviews.map(review => (
-                <Review key={review.id} {...review} />
-              )) : <p className="text-gray-500">Chưa có đánh giá nào.</p>}
+
+            {/* Cột phải: Thông tin chi tiết */}
+            <div className="md:w-2/3 space-y-8 border-t md:border-t-0 md:border-l border-gray-200 pt-8 md:pt-0 md:pl-12">
+              <section>
+                <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2 mb-4">
+                  Giới thiệu
+                </h2>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap min-h-[60px]">
+                  {doctor.description || <span className="italic text-gray-400">Chưa cập nhật mô tả</span>}
+                </p>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2 mb-4">
+                  Thông tin liên hệ
+                </h2>
+                <div className="space-y-3">
+                    {doctor.phone && (
+                        <div className="flex items-center text-gray-700">
+                            <Phone className="w-5 h-5 mr-3 text-green-500" />
+                            <span>{doctor.phone}</span>
+                        </div>
+                    )}
+                    {doctor.email && (
+                        <div className="flex items-center text-gray-700">
+                            <Mail className="w-5 h-5 mr-3 text-red-500" />
+                            <span>{doctor.email}</span>
+                        </div>
+                    )}
+                </div>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-semibold text-gray-800 border-b border-gray-200 pb-2 mb-4">
+                  Thông tin cá nhân
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {doctor.gender && (
+                    <div>
+                      <span className="text-gray-500">Giới tính:</span>
+                      <span className="ml-2">
+                        {doctor.gender === 'Male' ? 'Nam' : doctor.gender === 'Female' ? 'Nữ' : 'Khác'}
+                      </span>
+                    </div>
+                  )}
+                  {doctor.dateOfBirth && (
+                    <div>
+                      <span className="text-gray-500">Ngày sinh:</span>
+                      <span className="ml-2">
+                        {new Date(doctor.dateOfBirth).toLocaleDateString('vi-VN')}
+                      </span>
+                    </div>
+                  )}
+                  {doctor.cccd && (
+                    <div>
+                      <span className="text-gray-500">CCCD:</span>
+                      <span className="ml-2">{doctor.cccd}</span>
+                    </div>
+                  )}
+                  {doctor.rating > 0 && (
+                    <div>
+                      <span className="text-gray-500">Đánh giá:</span>
+                      <span className="ml-2 text-yellow-500">⭐ {doctor.rating.toFixed(1)}</span>
+                      {doctor.reviewCount > 0 && (
+                        <span className="ml-2 text-gray-500">({doctor.reviewCount} đánh giá)</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </section>
             </div>
-          </section>
+          </div>
         </div>
       </div>
     </div>
@@ -169,4 +165,3 @@ const DoctorDetail = () => {
 };
 
 export default DoctorDetail;
-

@@ -15,10 +15,5 @@ namespace backend.Models.ViewModel
         public string DepartmentId { get; set; } = string.Empty;
 
         public string? DepartmentName { get; set; }
-
-        [DataType(DataType.Upload)]
-        public IFormFile? ImageFile { get; set; }
-
-        public string? ImageUrl { get; set; }
     }
 }

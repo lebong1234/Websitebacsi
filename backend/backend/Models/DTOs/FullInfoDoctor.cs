@@ -14,7 +14,7 @@ namespace backend.Models.DTOs.Doctor
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Giới tính không được để trống")]
-        public DoctorGender Gender { get; set; }
+        public backend.Models.Entities.Doctor.DoctorGender Gender { get; set; }
 
         [Required(ErrorMessage = "Ngày sinh không được để trống")]
         [DataType(DataType.Date)]
@@ -56,12 +56,5 @@ namespace backend.Models.DTOs.Doctor
         // === DoctorSchedule Properties (Optional, for initial schedule) ===
         public string? Date { get; set; } // format "yyyy-MM-dd"
         public List<backend.Models.Entities.Doctor.DoctorSchedule.TimeSlot>? TimeSlots { get; set; }
-    }
-
-    public enum DoctorGender
-    {
-        Male,
-        Female,
-        Other
     }
 }

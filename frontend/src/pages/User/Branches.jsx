@@ -68,9 +68,9 @@ const Branches = () => {
       state: {
         id: branchIdForAPI,
         idBranch: branch.idBranch,
-        name: branch.name,
-        address: branch.address,
-        phoneNumber: branch.phoneNumber,
+        name: branch.branchName || branch.name || "Chi nhánh",
+        address: branch.branchAddress || branch.address || "Địa chỉ chưa cập nhật",
+        phoneNumber: branch.branchHotline || branch.phoneNumber || "Chưa cập nhật",
         imageUrl: branch.imageUrl,
         description: branch.description,
         email: branch.email,
@@ -122,7 +122,7 @@ const Branches = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br via-indigo-50 to-purple-50 p-4">
       <div className="max-w-7xl mx-auto">
         {renderError()}
 
@@ -145,13 +145,13 @@ const Branches = () => {
                     <div className="relative h-56 overflow-hidden">
                       <img
                         src={branch.imageUrl ? `${API_IMG_URL}${branch.imageUrl}` : DEFAULT_PLACEHOLDER_IMAGE}
-                        alt={branch.name || "Chi nhánh"}
+                        alt={branch.branchName || "Chi nhánh"}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         onError={handleImageError}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <h3 className="text-xl font-bold text-white mb-1">{branch.name || "Tên chi nhánh"}</h3>
+                        <h3 className="text-xl font-bold text-white mb-1">{branch.branchName || "Tên chi nhánh"}</h3>
                       </div>
                     </div>
 
@@ -159,13 +159,13 @@ const Branches = () => {
                       <div className="space-y-3">
                         <div className="flex items-start space-x-3">
                           <MapPin className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
-                          <p className="text-gray-600 leading-relaxed text-sm">{branch.address || "Địa chỉ chưa cập nhật"}</p>
+                          <p className="text-gray-600 leading-relaxed text-sm">{branch.branchAddress || "Địa chỉ chưa cập nhật"}</p>
                         </div>
 
                         {branch.phoneNumber && (
                           <div className="flex items-center space-x-3">
                             <Phone className="w-5 h-5 text-green-500 flex-shrink-0" />
-                            <p className="text-gray-600 text-sm">{branch.phoneNumber}</p>
+                            <p className="text-gray-600 text-sm">{<branch className="branchHotline"></branch> }</p>
                           </div>
                         )}
 

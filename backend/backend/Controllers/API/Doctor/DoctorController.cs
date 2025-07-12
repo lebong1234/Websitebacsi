@@ -9,6 +9,8 @@ using backend.Models.Entities.Doctor;
 using backend.Services;
 using backend.Models.DTOs;
 using System.Threading.Tasks;
+using System.Collections.Generic; // Added for List
+using System.Linq; // Added for Where
 
 
 namespace backend.Controllers
@@ -59,6 +61,41 @@ namespace backend.Controllers
             doctors.ForEach(d => d.Password = string.Empty);
 
             return Ok(doctors);
+        }
+
+        [HttpGet("all-with-details")]
+        public async Task<IActionResult> GetAllDoctorsWithDetails()
+        {
+            try
+            {
+                var doctors = await _doctorService.GetAllAsync();
+                var result = new List<object>();
+
+                foreach (var doctor in doctors)
+                {
+                    var doctorDetail = await _doctorDetailService.GetDoctorDetailByDoctorIdAsync(doctor.IdDoctor);
+                    result.Add(new {
+                        Id = doctor.IdDoctor,
+                        Name = doctor.Name, // Đảm bảo luôn có trường Name
+                        Email = doctor.Email,
+                        Phone = doctor.Phone,
+                        Gender = doctor.Gender,
+                        DateOfBirth = doctor.DateOfBirth,
+                        Cccd = doctor.Cccd,
+                        Degree = doctorDetail?.Degree,
+                        Description = doctorDetail?.Description,
+                        Img = doctorDetail?.Img,
+                        BranchName = doctorDetail?.BranchName,
+                        DepartmentName = doctorDetail?.DepartmentName,
+                        SpecialtyName = doctorDetail?.SpecialtyName
+                    });
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "An error occurred while fetching doctors with details.", error = ex.Message });
+            }
         }
 
         [HttpPost("login")]
@@ -116,17 +153,19 @@ namespace backend.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        // GET: api/Doctor/{doctorId}/fullinfo
         [HttpGet("{doctorId}/fullinfo")]
         public async Task<ActionResult<DoctorFullInfoDto>> GetDoctorFullInfo(string doctorId)
         {
             var doctorFullInfo = await _doctorDetailService.GetDoctorFullInfoAsync(doctorId);
-
             if (doctorFullInfo == null)
-            {
                 return NotFound(new { message = $"Doctor with ID {doctorId} not found." });
+
+            // Lọc slot chỉ lấy IsAvailable == true && IsBooked == false
+            foreach (var schedule in doctorFullInfo.DoctorSchedules)
+            {
+                schedule.TimeSlots = schedule.TimeSlots?.Where(ts => ts.IsAvailable && !ts.IsBooked).ToList() ?? new List<DoctorSchedule.TimeSlot>();
             }
-
-
             return Ok(doctorFullInfo);
         }
     }

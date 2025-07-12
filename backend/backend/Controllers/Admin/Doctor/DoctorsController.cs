@@ -366,12 +366,15 @@ namespace backend.Controllers.Admin
                         {
                             foreach (var slot in slotsArr)
                             {
+                                bool isAvailable = slot["isAvailable"]?.ToObject<bool>() ?? true;
+                                if (!isAvailable) continue; // Bỏ qua slot bác sĩ bận
                                 slots.Add(new backend.Models.Entities.Doctor.DoctorSchedule.TimeSlot
                                 {
                                     StartTime = slot["startTime"]?.ToString() ?? string.Empty,
                                     EndTime = slot["endTime"]?.ToString() ?? string.Empty,
                                     ConsultationFee = slot["consultationFee"]?.ToObject<int>() ?? 0,
-                                    ExaminationTime = slot["examinationTime"]?.ToObject<int>() ?? 15
+                                    ExaminationTime = slot["examinationTime"]?.ToObject<int>() ?? 15,
+                                    IsAvailable = isAvailable
                                 });
                             }
                         }
@@ -442,6 +445,55 @@ namespace backend.Controllers.Admin
             return View(dto);
         }
 
+        [HttpPost("GenerateSchedule")]
+        public IActionResult GenerateSchedule([FromBody] ScheduleGenerationRequestDto request)
+        {
+            if (request == null || request.SlotDurationInMinutes <= 0)
+            {
+                return BadRequest("Dữ liệu không hợp lệ.");
+            }
+
+            try
+            {
+                var generatedSchedules = new Dictionary<string, List<DoctorSchedule.TimeSlot>>();
+                var startDate = DateTime.Parse(request.StartDate);
+                var endDate = DateTime.Parse(request.EndDate);
+                var workingStartTime = TimeSpan.Parse(request.WorkingStartTime);
+                var workingEndTime = TimeSpan.Parse(request.WorkingEndTime);
+
+                for (var day = startDate; day <= endDate; day = day.AddDays(1))
+                {
+                    var dateKey = day.ToString("yyyy-MM-dd");
+                    var slots = new List<DoctorSchedule.TimeSlot>();
+                    var currentTime = day.Date + workingStartTime;
+                    var endTime = day.Date + workingEndTime;
+
+                    while (currentTime < endTime)
+                    {
+                        var slotEndTime = currentTime.AddMinutes(request.SlotDurationInMinutes);
+                        if (slotEndTime > endTime) break; // Đảm bảo không vượt quá giờ kết thúc
+
+                        slots.Add(new DoctorSchedule.TimeSlot
+                        {
+                            StartTime = currentTime.ToString("HH:mm"),
+                            EndTime = slotEndTime.ToString("HH:mm"),
+                            ConsultationFee = request.ConsultationFee,
+                            ExaminationTime = request.SlotDurationInMinutes,
+                            IsBooked = false // Mới tạo nên chưa được đặt
+                        });
+                        currentTime = slotEndTime;
+                    }
+                    generatedSchedules[dateKey] = slots;
+                }
+
+                return Json(generatedSchedules);
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi
+                return StatusCode(500, "Đã xảy ra lỗi khi tạo lịch: " + ex.Message);
+            }
+        }
 
         [HttpGet("GetSpecialtiesByDepartment")] // Hoặc một tên route khác bạn muốn
         public async Task<JsonResult> GetSpecialtiesByDepartment(string departmentId)
@@ -537,6 +589,15 @@ namespace backend.Controllers.Admin
                 TempData["ErrorMessage"] = "Đã xảy ra lỗi hệ thống không mong muốn khi xóa. " + ex.Message;
                 return RedirectToAction(nameof(Index));
             }
+        }
+        public class ScheduleGenerationRequestDto
+        {
+            public string StartDate { get; set; }
+            public string EndDate { get; set; }
+            public string WorkingStartTime { get; set; } // "HH:mm"
+            public string WorkingEndTime { get; set; } // "HH:mm"
+            public int SlotDurationInMinutes { get; set; }
+            public int ConsultationFee { get; set; }
         }
     }
 }

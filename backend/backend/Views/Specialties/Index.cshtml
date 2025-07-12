@@ -12,7 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Image</th>
             <th>Name</th>
             <th>Description</th>
             <th>Department</th>
@@ -23,12 +22,6 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.ImageUrl))
-                    {
-                        <img src="@item.ImageUrl" alt="@item.SpecialtyName" style="width: 100px; height: auto;" />
-                    }
-                </td>
                 <td>@Html.DisplayFor(modelItem => item.SpecialtyName)</td>
                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
                 <td>@Html.DisplayFor(modelItem => item.Department.DepartmentName)</td>

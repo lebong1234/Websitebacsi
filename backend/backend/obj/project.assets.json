@@ -4552,30 +4552,30 @@
       "MongoDB.Bson >= 3.4.0",
       "MongoDB.Driver >= 3.4.0",
       "Newtonsoft.Json >= 13.0.3",
-      "PayOS >= 1.0.9",
       "Swashbuckle.AspNetCore.Swagger >= 9.0.1",
       "Swashbuckle.AspNetCore.SwaggerGen >= 9.0.1",
       "Swashbuckle.AspNetCore.SwaggerUI >= 9.0.1",
       "System.IdentityModel.Tokens.Jwt >= 8.12.1",
       "System.Text.Encoding.CodePages >= 9.0.6",
-      "System.Text.Json >= 9.0.6"
+      "System.Text.Json >= 9.0.6",
+      "payOS >= 1.0.9"
     ]
   },
   "packageFolders": {
     "C:\\Users\\leb84\\.nuget\\packages\\": {},
-    "D:\\VisualStudio\\Shared\\NuGetPackages": {}
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\leb84\\OneDrive\\Documents\\Webbacsi\\backend\\backend\\backend.csproj",
+      "projectUniqueName": "C:\\Users\\leb84\\OneDrive\\Documents\\GitHub\\Websitebacsi\\backend\\backend\\backend.csproj",
       "projectName": "backend",
-      "projectPath": "C:\\Users\\leb84\\OneDrive\\Documents\\Webbacsi\\backend\\backend\\backend.csproj",
+      "projectPath": "C:\\Users\\leb84\\OneDrive\\Documents\\GitHub\\Websitebacsi\\backend\\backend\\backend.csproj",
       "packagesPath": "C:\\Users\\leb84\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\leb84\\OneDrive\\Documents\\Webbacsi\\backend\\backend\\obj\\",
+      "outputPath": "C:\\Users\\leb84\\OneDrive\\Documents\\GitHub\\Websitebacsi\\backend\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\VisualStudio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\leb84\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -4680,10 +4680,6 @@
             "target": "Package",
             "version": "[13.0.3, )"
           },
-          "PayOS": {
-            "target": "Package",
-            "version": "[1.0.9, )"
-          },
           "Swashbuckle.AspNetCore.Swagger": {
             "target": "Package",
             "version": "[9.0.1, )"
@@ -4707,6 +4703,10 @@
           "System.Text.Json": {
             "target": "Package",
             "version": "[9.0.6, )"
+          },
+          "payOS": {
+            "target": "Package",
+            "version": "[1.0.9, )"
           }
         },
         "imports": [

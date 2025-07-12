@@ -529,7 +529,8 @@
                         startTime: slot.startTime || '',
                         endTime: slot.endTime || '',
                         consultationFee: slot.consultationFee || 0,
-                        examinationTime: slot.examinationTime || 15
+                        examinationTime: slot.examinationTime || 15,
+                        isAvailable: slot.isAvailable !== false // default true
                     })) : []
                 }));
             } catch (e) { scheduleData = []; }
@@ -579,9 +580,14 @@
                                         <label class="form-label form-label-sm mb-1">Phí khám (VNĐ)</label>
                                         <input type="number" class="form-control form-control-sm text-end" value="${slot.consultationFee}" min="0" step="1000" onchange="updateTimeSlot(${dayIdx},${slotIdx},'consultationFee',this.value)" />
                                     </div>
-                                    <div class="col-6 col-md-3">
+                                    <div class="col-6 col-md-2">
                                         <label class="form-label form-label-sm mb-1">Thời gian khám (phút)</label>
                                         <input type="number" class="form-control form-control-sm text-end" value="${slot.examinationTime}" min="5" onchange="updateTimeSlot(${dayIdx},${slotIdx},'examinationTime',this.value)" />
+                                    </div>
+                                    <div class="col-6 col-md-1 d-flex align-items-center">
+                                        <label class="form-label form-label-sm mb-1 w-100">
+                                            <input type="checkbox" class="form-check-input" onchange="updateTimeSlot(${dayIdx},${slotIdx},'isAvailable',this.checked)" ${slot.isAvailable !== false ? 'checked' : ''} /> Rảnh
+                                        </label>
                                     </div>
                                 </div>
                             </td>
@@ -607,7 +613,7 @@
             renderScheduleTable();
         }
         function addTimeSlot(dayIdx) {
-            scheduleData[dayIdx].timeSlots.push({ startTime: '', endTime: '', consultationFee: 0, examinationTime: 15 });
+            scheduleData[dayIdx].timeSlots.push({ startTime: '', endTime: '', consultationFee: 0, examinationTime: 15, isAvailable: true });
             renderScheduleTable();
         }
         function removeTimeSlot(dayIdx, slotIdx) {
@@ -619,7 +625,13 @@
             renderScheduleTable();
         }
         function updateTimeSlot(dayIdx, slotIdx, field, value) {
-            scheduleData[dayIdx].timeSlots[slotIdx][field] = field === 'consultationFee' || field === 'examinationTime' ? parseInt(value) : value;
+            if (field === 'consultationFee' || field === 'examinationTime') {
+                scheduleData[dayIdx].timeSlots[slotIdx][field] = parseInt(value);
+            } else if (field === 'isAvailable') {
+                scheduleData[dayIdx].timeSlots[slotIdx][field] = value;
+            } else {
+                scheduleData[dayIdx].timeSlots[slotIdx][field] = value;
+            }
             renderScheduleTable();
         }
         // Serialize scheduleData before submit

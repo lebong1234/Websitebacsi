@@ -24,13 +24,13 @@
           "MongoDB.Bson": "3.4.0",
           "MongoDB.Driver": "3.4.0",
           "Newtonsoft.Json": "13.0.3",
-          "payOS": "1.0.9",
           "Swashbuckle.AspNetCore.Swagger": "9.0.1",
           "Swashbuckle.AspNetCore.SwaggerGen": "9.0.1",
           "Swashbuckle.AspNetCore.SwaggerUI": "9.0.1",
           "System.IdentityModel.Tokens.Jwt": "8.12.1",
           "System.Text.Encoding.CodePages": "9.0.6",
-          "System.Text.Json": "9.0.6"
+          "System.Text.Json": "9.0.6",
+          "payOS": "1.0.9"
         },
         "runtime": {
           "backend.dll": {}
