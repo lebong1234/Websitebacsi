@@ -1,0 +1,803 @@
+
+/* ========== HEADER TOP ========== */
+.header-top {
+  padding: 12px 0;
+  background: #ffffff;
+}
+
+.social-media,
+.social_media_links {
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .social-media,
+  .social_media_links {
+    justify-content: flex-start;
+  }
+}
+
+.social-media a,
+.social_media_links a {
+  font-size: 15px;
+  color: #C7C7C7;
+  margin-right: 12px;
+  transition: color 0.3s ease;
+}
+
+.social-media a:hover,
+.social_media_links a:hover {
+  color: #5DB2FF;
+}
+
+.contact-info,
+.short_contact_list ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 576px) {
+  .contact-info,
+  .short_contact_list ul {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 768px) {
+  .contact-info,
+  .short_contact_list ul {
+    justify-content: flex-end;
+  }
+}
+
+.contact-info a,
+.short_contact_list ul li a {
+  font-size: 13px;
+  color: #919191;
+  display: flex;
+  align-items: center;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (min-width: 576px) {
+  .contact-info a,
+  .short_contact_list ul li a {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .contact-info a,
+  .short_contact_list ul li a {
+    margin-left: 30px;
+    margin-right: 0;
+  }
+}
+
+.contact-info a .icon,
+.short_contact_list ul li a i {
+  color: #5DB2FF;
+  margin-right: 7px;
+}
+
+/* ========== MAIN HEADER ========== */
+.main-header,
+.main-header-area {
+  background: #dceaff;
+  border-radius: 30px;
+  transition: all 0.5s ease;
+}
+
+.logo img,
+.logo-img img {
+  height: 40px;
+}
+
+@media (max-width: 767px) {
+  .logo-img img {
+    width: 70px;
+  }
+}
+
+/* Navigation */
+.main-nav ul,
+.main-menu ul {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.main-nav li,
+.main-menu ul li {
+  position: relative;
+  margin: 0 20px;
+}
+
+.main-nav a,
+.main-menu ul li a {
+  color: #000000;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 0;
+  position: relative;
+  display: inline-block;
+  text-transform: capitalize;
+  font-family: "Poppins", sans-serif;
+}
+
+.main-nav a::before,
+.main-menu ul li a::before {
+  position: absolute;
+  content: "";
+  background: #1F1F1F;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transform: scaleX(0);
+  transition: 0.3s;
+}
+
+.main-nav a:hover::before,
+.main-nav a.active::before,
+.main-menu ul li a:hover::before,
+.main-menu ul li a.active::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.main-nav a:hover,
+.main-menu ul li a:hover {
+  color: #1F1F1F;
+}
+
+/* Dropdown Menu */
+.has-dropdown,
+.main-menu ul li {
+  position: relative;
+}
+
+.dropdown-menu,
+.submenu {
+  position: absolute;
+  left: 0;
+  top: 160%;
+  background: #fff;
+  width: 200px;
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(0,0,0,0.02);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s ease;
+}
+
+.has-dropdown:hover .dropdown-menu,
+.main-menu ul li:hover > .submenu {
+  opacity: 1;
+  visibility: visible;
+  top: 150%;
+}
+
+.dropdown-menu li,
+.submenu li {
+  margin: 0;
+  display: block;
+}
+
+.dropdown-menu a,
+.submenu li a {
+  padding: 10px 15px;
+  color: #000;
+  display: block;
+}
+
+.dropdown-menu a:hover,
+.submenu li a:hover {
+  background: #f5f5f5;
+  color: #000;
+}
+
+.dropdown-icon,
+.main-menu ul li a i {
+  font-size: 9px;
+  margin-left: 5px;
+}
+
+@media (max-width: 991px) {
+  .main-menu ul li a i {
+    display: none !important;
+  }
+}
+
+/* Appointment Button */
+.book-btn,
+.Appointment .book_btn a {
+    background: #8dd1fb;
+    padding: 12px 26px;
+    width: 180px;
+    /* font-size: 14px; */
+    font-weight: 400;
+    /* border: 1px solid transparent; */
+    color: #fff;
+    border-radius: 1000px;
+    transition: all 0.3s
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .Appointment .book_btn a {
+    padding: 12px 20px;
+  }
+}
+
+.book-btn:hover,
+.Appointment .book_btn a:hover {
+  background: #fff;
+  color: #009DFF;
+  border: 1px solid #009DFF;
+}
+
+.Appointment {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.Appointment .book_btn {
+  margin-left: 30px;
+}
+
+@media (min-width: 992px) and (max-width: 1500px) {
+  .Appointment .book_btn {
+    margin-left: 0;
+  }
+}
+
+/* Sticky Header */
+.main-header.sticky,
+.main-header-area.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  transform: translateY(0);
+  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.96);
+  padding: 10px 0;
+}
+
+.main-header.sticky .main-menu,
+.main-header-area.sticky .main-menu {
+  padding: 0;
+}
+
+/* ========== MOBILE MENU ========== */
+.mobile-menu-btn {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 20px;
+  width: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.line {
+  display: block;
+  height: 4px;
+  width: 100%;
+  background: #000000;
+  transition: all 0.3s ease;
+}
+
+.line:nth-child(1).open {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.line:nth-child(2).open {
+  opacity: 0;
+}
+
+.line:nth-child(3).open {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.mobile-menu {
+  position: fixed; /* Đặt vị trí cố định */
+  top: 0; /* Bắt đầu từ đầu trang */
+  left: 0; /* Căn trái */
+  width: 250px; /* Chiều rộng của menu */
+  height: 100%; /* Chiều cao đầy đủ */
+  background: #ffffff; /* Màu nền */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Đổ bóng */
+  transform: translateX(-100%); /* Ẩn menu ra ngoài */
+  transition: transform 0.3s ease; /* Hiệu ứng chuyển động */
+  z-index: 1000; /* Đảm bảo menu nằm trên các phần tử khác */
+}
+.mobile-menu.open {
+  background-color: white;
+    height: 800px;
+  transform: translateX(0); /* Hiện menu khi mở */
+}
+.mobile-menu ul {
+  padding: 20px; /* Padding cho menu */
+  flex-direction: column; /* Sắp xếp theo cột */
+}
+.mobile-menu li {
+  margin-bottom: 15px; /* Khoảng cách giữa các mục */
+}
+.mobile-menu a {
+  color: #000000; /* Màu chữ */
+  font-size: 15px; /* Kích thước chữ */
+  font-weight: 500; /* Độ đậm chữ */
+  display: block; /* Hiển thị dưới dạng khối */
+  padding: 8px 0; /* Padding cho các mục */
+}
+.mobile-dropdown .dropdown-icon {
+  transition: transform 0.3s ease;
+}
+
+.mobile-dropdown.active .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.mobile-submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding-left: 15px;
+}
+
+.mobile-dropdown.active .mobile-submenu {
+  max-height: 200px;
+}
+
+.mobile-appointment {
+  margin-top: 20px;
+}
+
+.mobile-book-btn {
+  display: inline-block;
+  background: #009DFF;
+  padding: 12px 26px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.mobile-book-btn:hover {
+  background: #0088e0;
+}
+/* line 1, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area {
+  left: 0;
+  right: 0;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+
+@media (max-width: 767px) {
+  /* line 1, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area {
+    padding-top: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* line 1, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area {
+    padding-top: 0;
+  }
+}
+
+/* line 15, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area {
+  padding: 18px 0;
+  background: #ffffff;
+  border-radius: 30px;
+}
+
+/* line 31, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .logo-img {
+  text-align: center;
+  margin-right: 30px;
+}
+
+@media (max-width: 767px) {
+  /* line 31, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .logo-img {
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* line 31, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .logo-img {
+    text-align: left;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  /* line 31, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .logo-img {
+    text-align: left;
+  }
+}
+
+@media (max-width: 767px) {
+  /* line 45, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .logo-img img {
+    width: 70px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* line 45, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .logo-img img {
+    width: 70px;
+  }
+}
+
+/* line 57, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .Appointment {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: flex-end;
+  -moz-justify-content: flex-end;
+  -ms-justify-content: flex-end;
+  justify-content: flex-end;
+  -ms-flex-pack: flex-end;
+}
+
+/* line 63, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .Appointment .socail_links ul li {
+  display: inline-block;
+}
+
+/* line 66, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .Appointment .socail_links ul li a {
+  color: #A8A7A0;
+  margin: 0 10px;
+  font-size: 15px;
+}
+
+/* line 70, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .Appointment .socail_links ul li a:hover {
+  color: #fff;
+}
+
+/* line 77, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .Appointment .book_btn {
+  margin-left: 30px;
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  /* line 77, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .Appointment .book_btn {
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1500px) {
+  /* line 77, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .Appointment .book_btn {
+    margin-left: 0;
+  }
+}
+
+/* line 85, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .Appointment .book_btn a {
+  background: #009DFF;
+  padding: 12px 26px;
+  font-size: 14px;
+  font-weight: 400;
+  border: 1px solid transparent;
+  color: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  /* line 85, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .Appointment .book_btn a {
+    padding: 12px 20px;
+  }
+}
+
+/* line 96, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .Appointment .book_btn a:hover {
+  background: #fff;
+  color: #009DFF;
+  border: 1px solid #009DFF;
+}
+
+/* line 104, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu {
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* line 108, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li {
+  display: inline-block;
+  position: relative;
+  margin: 0 10px;
+}
+
+/* line 118, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li a {
+  color: #727272;
+  font-size: 15px;
+  text-transform: capitalize;
+  font-weight: 500;
+  display: inline-block;
+  padding: 0px 0px 0px 0px;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  text-transform: capitalize;
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  /* line 118, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .main-menu ul li a {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1500px) {
+  /* line 118, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .main-menu ul li a {
+    font-size: 15px;
+  }
+}
+
+/* line 137, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li a i {
+  font-size: 9px;
+}
+
+@media (max-width: 767px) {
+  /* line 137, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .main-menu ul li a i {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* line 137, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area .main-menu ul li a i {
+    display: none !important;
+  }
+}
+
+/* line 146, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li a::before {
+  position: absolute;
+  content: "";
+  background: #fff;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transform: scaleX(0);
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+/* line 158, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li a:hover::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* line 163, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li a.active::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* line 168, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li a:hover {
+  color: #1F1F1F;
+}
+
+/* line 172, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li .submenu {
+  position: absolute;
+  left: 0;
+  top: 160%;
+  background: #fff;
+  width: 200px;
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.02);
+  opacity: 0;
+  visibility: hidden;
+  text-align: left;
+  -webkit-transition: 0.6s;
+  -moz-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+}
+
+/* line 184, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li .submenu li {
+  display: block;
+}
+
+/* line 186, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li .submenu li a {
+  padding: 10px 15px;
+  position: inherit;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  display: block;
+  color: #000;
+}
+
+/* line 192, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li .submenu li a::before {
+  display: none;
+}
+
+/* line 196, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li .submenu li:hover a {
+  color: #000;
+}
+
+/* line 201, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li:hover > .submenu {
+  opacity: 1;
+  visibility: visible;
+  top: 150%;
+}
+
+/* line 206, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li:hover > a::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* line 210, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area .main-menu ul li:first-child a {
+  padding-left: 0;
+}
+
+/* line 216, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area.sticky {
+  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: -70px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  transform: translateY(70px);
+  transition: transform 500ms ease, background 500ms ease;
+  -webkit-transition: transform 500ms ease, background 500ms ease;
+  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+@media (max-width: 767px) {
+  /* line 216, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area.sticky {
+    padding: 10px 10px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* line 216, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area.sticky {
+    padding: 10px 10px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  /* line 216, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area.sticky {
+    padding: 10px 20px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1500px) {
+  /* line 216, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .main-header-area.sticky {
+    padding: 10px 20px;
+  }
+}
+
+/* line 242, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .main-header-area.sticky .main-menu {
+  padding: 0;
+}
+
+/* line 248, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .header-top_area {
+  padding: 12px 0;
+  background: #ffffff;
+}
+
+@media (max-width: 767px) {
+  /* line 251, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .header-top_area .social_media_links {
+    text-align: center;
+  }
+}
+
+/* line 255, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .header-top_area .social_media_links a {
+  font-size: 15px;
+  color: #C7C7C7;
+  margin-right: 12px;
+}
+
+/* line 259, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .header-top_area .social_media_links a:hover {
+  color: #5DB2FF;
+}
+
+/* line 264, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .header-top_area .short_contact_list {
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  /* line 264, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .header-top_area .short_contact_list {
+    text-align: center;
+  }
+}
+
+/* line 270, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .header-top_area .short_contact_list ul li {
+  display: inline-block;
+}
+
+/* line 272, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .header-top_area .short_contact_list ul li a {
+  font-size: 13px;
+  color: #919191;
+  margin-left: 50px;
+}
+
+@media (max-width: 767px) {
+  /* line 272, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+  .header-area .header-top_area .short_contact_list ul li a {
+    margin-left: 0;
+    margin: 0 5px;
+  }
+}
+
+/* line 281, C:/Users/SPN Graphics/Desktop/CL September/210 Medical/HTML/scss/_header.scss */
+.header-area .header-top_area .short_contact_list ul li a i {
+  color: #5DB2FF;
+  margin-right: 7px;
+}

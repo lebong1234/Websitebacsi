@@ -1,0 +1,30 @@
+@model dynamic
+@{
+    var action = ViewData["Action"]?.ToString() ?? "Create";
+    var controller = ViewData["Controller"]?.ToString() ?? "";
+    var title = ViewData["Title"]?.ToString() ?? "Form";
+    var submitText = ViewData["SubmitText"]?.ToString() ?? "Lưu";
+    var cancelText = ViewData["CancelText"]?.ToString() ?? "Hủy";
+}
+
+<div class="enhanced-form">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">@title</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="@action" method="post" enctype="multipart/form-data">
+                @RenderBody()
+                
+                <div class="form-group d-flex gap-2 justify-content-end">
+                    <a asp-action="Index" class="btn btn-secondary" style="background-color: #6c757d; border-color: #6c757d;">
+                        <i class='bx bx-arrow-back'></i> @cancelText
+                    </a>
+                    <button type="submit" class="btn btn-primary" style="background-color: #2196f3; border-color: #2196f3;">
+                        <i class='bx bx-save'></i> @submitText
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<backend.Models.Entities.Specialty>
+@{
+    ViewData["Title"] = "Danh sách Chuyên khoa";
+}
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">+ Thêm mới</a>
+</div>
+
+<table class="table table-striped table-hover responsive-table">
+    <thead>
+        <tr>
+            <th>Tên Chuyên khoa</th>
+            <th>Mô tả</th>
+            <th>Khoa</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SpecialtyName</td>
+                <td class="text-truncate" style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    @item.Description
+                </td>
+                <td>@item.Department?.DepartmentName</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.IdSpecialty" class="btn btn-primary">Chi tiết</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdSpecialty" class="btn btn-info">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdSpecialty" class="btn btn-secondary">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

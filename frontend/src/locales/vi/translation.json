@@ -1,0 +1,12 @@
+{
+    "health_news_title": "Tin tức sức khỏe mới nhất",
+    "health_news_description": "Cập nhật những thông tin y tế quan trọng nhất",
+    "loading": "Đang tải tin tức...",
+    "read_more": "Xem chi tiết",
+    "no_articles": "Không có tin tức mới",
+    "try_again": "Vui lòng thử lại sau",
+    "unknown_source": "Nguồn không xác định",
+    "api_error": "Lỗi khi gọi API",
+    "connection_error": "Không thể kết nối tới máy chủ tin tức.",
+    "published": "Ngày đăng"
+}

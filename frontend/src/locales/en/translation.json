@@ -1,0 +1,12 @@
+{
+    "health_news_title": "Latest Health News",
+    "health_news_description": "Stay updated with the latest health information",
+    "loading": "Loading health news...",
+    "read_more": "Read More",
+    "no_articles": "No health news found",
+    "try_again": "Please try again later",
+    "unknown_source": "Unknown Source",
+    "api_error": "API Error",
+    "connection_error": "Failed to connect to news server.",
+    "published": "Published"
+}

@@ -1,0 +1,605 @@
+/* Main CSS file - Compiled from SCSS */
+/* Mobile-first responsive design */
+
+/* Breakpoints */
+/* Mobile optimizations */
+@media screen and (max-width: 576px) {
+  /* Sidebar mobile optimization */
+  #sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  #sidebar.show {
+    transform: translateX(0);
+  }
+  
+  #sidebar .brand {
+    height: 50px;
+    font-size: 20px;
+  }
+  
+  #sidebar .brand .bx {
+    min-width: 40px;
+  }
+  
+  #sidebar .side-menu {
+    margin-top: 20px;
+  }
+  
+  #sidebar .side-menu li {
+    height: 40px;
+    margin-left: 0;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  
+  #sidebar .side-menu li a {
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  
+  #sidebar .side-menu li a .bx {
+    min-width: 40px;
+  }
+  
+  /* Content mobile optimization */
+  #content {
+    width: 100%;
+    left: 0;
+  }
+  
+  #content nav {
+    height: 50px;
+    padding: 0 15px;
+  }
+  
+  #content nav .bx.bx-menu {
+    font-size: 24px;
+  }
+  
+  #content nav form {
+    display: none;
+  }
+  
+  #content nav form.show {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--light);
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+  
+  #content nav .notification {
+    font-size: 18px;
+  }
+  
+  #content nav .notification .num {
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+  }
+  
+  #content nav .profile img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  #content main {
+    padding: 20px 15px;
+  }
+  
+  #content main .head-title .left h1 {
+    font-size: 24px;
+  }
+  
+  #content main .head-title .breadcrumb {
+    font-size: 12px;
+  }
+  
+  #content main .box-info {
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+    margin-top: 20px;
+  }
+  
+  #content main .box-info li {
+    padding: 15px;
+  }
+  
+  #content main .box-info li .bx {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+  
+  #content main .box-info li .text h3 {
+    font-size: 20px;
+  }
+  
+  #content main .table-data {
+    grid-gap: 15px;
+    margin-top: 15px;
+  }
+  
+  #content main .table-data > div {
+    padding: 15px;
+  }
+  
+  #content main .table-data .head h3 {
+    font-size: 18px;
+  }
+  
+  #content main .table-data .order {
+    flex-basis: 100%;
+  }
+  
+  #content main .table-data .order table {
+    font-size: 12px;
+  }
+  
+  #content main .table-data .order table th {
+    padding: 8px 4px;
+  }
+  
+  #content main .table-data .order table td {
+    padding: 8px 4px;
+  }
+  
+  #content main .table-data .order table td img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  #content main .table-data .todo {
+    flex-basis: 100%;
+  }
+  
+  #content main .table-data .todo .todo-list li {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  /* Bootstrap card optimizations for mobile */
+  .card {
+    margin-bottom: 15px;
+  }
+  
+  .card .card-body {
+    padding: 15px;
+  }
+  
+  .card .card-header {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  /* Table responsive */
+  .table-responsive {
+    font-size: 12px;
+  }
+  
+  .table-responsive .table th,
+  .table-responsive .table td {
+    padding: 8px 4px;
+  }
+  
+  /* Form optimizations */
+  .form-control {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+  .btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+  
+  /* Modal optimizations */
+  .modal-dialog {
+    margin: 10px;
+  }
+  
+  .modal-dialog .modal-content {
+    border-radius: 10px;
+  }
+  
+  .modal-dialog .modal-header {
+    padding: 15px;
+  }
+  
+  .modal-dialog .modal-body {
+    padding: 15px;
+  }
+  
+  .modal-dialog .modal-footer {
+    padding: 15px;
+  }
+}
+
+/* Tablet optimizations */
+@media screen and (min-width: 577px) and (max-width: 768px) {
+  #sidebar {
+    width: 200px;
+  }
+  
+  #content {
+    width: calc(100% - 200px);
+    left: 200px;
+  }
+  
+  .box-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .table-data .order {
+    flex-basis: 100%;
+  }
+  
+  .table-data .todo {
+    flex-basis: 100%;
+  }
+}
+
+/* Desktop optimizations */
+@media screen and (min-width: 769px) {
+  #sidebar {
+    width: 280px;
+  }
+  
+  #content {
+    width: calc(100% - 280px);
+    left: 280px;
+  }
+  
+  .box-info {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+/* Custom button colors */
+.btn-primary {
+  background-color: #2196f3 !important;
+  border-color: #2196f3 !important;
+  color: white !important;
+}
+
+.btn-primary:hover {
+  background-color: #1976d2 !important;
+  border-color: #1976d2 !important;
+  color: white !important;
+}
+
+.btn-info {
+  background-color: #00bcd4 !important;
+  border-color: #00bcd4 !important;
+  color: white !important;
+}
+
+.btn-info:hover {
+  background-color: #0097a7 !important;
+  border-color: #0097a7 !important;
+  color: white !important;
+}
+
+.btn-secondary {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+  color: white !important;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268 !important;
+  border-color: #5a6268 !important;
+  color: white !important;
+}
+
+/* Outline button styles for backup */
+.btn-outline-primary {
+  color: #2196f3 !important;
+  border-color: #2196f3 !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
+.btn-outline-info {
+  color: #00bcd4 !important;
+  border-color: #00bcd4 !important;
+}
+
+.btn-outline-info:hover {
+  background-color: #00bcd4 !important;
+  color: white !important;
+}
+
+.btn-outline-secondary {
+  color: #6c757d !important;
+  border-color: #6c757d !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d !important;
+  color: white !important;
+}
+
+/* Chart container styles */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+@media screen and (max-width: 576px) {
+  .chart-container {
+    height: 250px;
+  }
+}
+
+.chart-container canvas {
+  max-height: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Enhanced card styles for better mobile experience */
+.stat-card {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card .card-body {
+  padding: 20px;
+}
+
+@media screen and (max-width: 576px) {
+  .stat-card .card-body {
+    padding: 15px;
+  }
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media screen and (max-width: 576px) {
+  .stat-number {
+    font-size: 2rem;
+  }
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 576px) {
+  .stat-label {
+    font-size: 0.8rem;
+  }
+}
+
+/* Enhanced table styles */
+.responsive-table .table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.responsive-table .table thead th {
+  background: var(--blue);
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+@media screen and (max-width: 576px) {
+  .responsive-table .table thead th {
+    font-size: 0.8rem;
+    padding: 10px 5px;
+  }
+}
+
+.responsive-table .table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.responsive-table .table tbody tr:hover {
+  background-color: var(--grey);
+}
+
+.responsive-table .table tbody tr td {
+  vertical-align: middle;
+}
+
+@media screen and (max-width: 576px) {
+  .responsive-table .table tbody tr td {
+    padding: 8px 5px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Enhanced form styles */
+.enhanced-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 576px) {
+  .enhanced-form .form-group {
+    margin-bottom: 1rem;
+  }
+}
+
+.enhanced-form .form-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--dark);
+}
+
+@media screen and (max-width: 576px) {
+  .enhanced-form .form-label {
+    font-size: 0.9rem;
+  }
+}
+
+.enhanced-form .form-control {
+  border-radius: 8px;
+  border: 2px solid var(--grey);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.enhanced-form .form-control:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 0.2rem rgba(60, 145, 230, 0.25);
+}
+
+@media screen and (max-width: 576px) {
+  .enhanced-form .form-control {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+}
+
+.enhanced-form .btn {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.enhanced-form .btn:hover {
+  transform: translateY(-1px);
+}
+
+@media screen and (max-width: 576px) {
+  .enhanced-form .btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Toast notifications */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+@media screen and (max-width: 576px) {
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+}
+
+.toast {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+@media screen and (max-width: 576px) {
+  .toast {
+    margin-bottom: 10px;
+  }
+}
+
+/* Mobile navigation toggle */
+.mobile-nav-toggle {
+  display: none;
+}
+
+@media screen and (max-width: 576px) {
+  .mobile-nav-toggle {
+    display: block;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 2001;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+/* Mobile overlay */
+.mobile-overlay {
+  display: none;
+}
+
+@media screen and (max-width: 576px) {
+  .mobile-overlay.show {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1999;
+  }
+}
+
+/* Utility classes for mobile */
+.mobile-only {
+  display: block;
+}
+
+@media screen and (min-width: 769px) {
+  .mobile-only {
+    display: none;
+  }
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media screen and (min-width: 769px) {
+  .desktop-only {
+    display: block;
+  }
+} 

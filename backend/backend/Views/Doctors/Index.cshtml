@@ -1,0 +1,133 @@
+@model IEnumerable<backend.Models.ViewModel.Doctor.DoctorSummaryViewModel>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Danh sách Bác sĩ";
+
+    // Lấy danh sách cho dropdowns từ ViewBag
+    var departments = ViewBag.Departments as List<SelectListItem> ?? new List<SelectListItem>();
+    var specialties = ViewBag.Specialties as List<SelectListItem> ?? new List<SelectListItem>();
+
+    // Lấy giá trị tìm kiếm hiện tại
+    string? currentSearchName = ViewBag.CurrentSearchName as string;
+    string? currentDepartmentId = ViewBag.CurrentDepartmentId as string;
+    string? currentSpecialtyId = ViewBag.CurrentSpecialtyId as string;
+}
+
+@* Form Tìm Kiếm *@
+<div class="enhanced-form mb-4">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0"><i class='bx bx-search'></i> Tìm kiếm Bác sĩ</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="Index" method="get">
+                <div class="row g-3">
+                    <div class="col-12 col-md-4">
+            <div class="form-group">
+                            <label for="searchName" class="form-label">Tên Bác sĩ</label>
+                            <input type="text" id="searchName" name="searchName" value="@currentSearchName" class="form-control" placeholder="Nhập tên bác sĩ..." />
+            </div>
+        </div>
+                    <div class="col-12 col-md-3">
+            <div class="form-group">
+                            <label for="departmentId" class="form-label">Khoa</label>
+                <select id="departmentId" name="departmentId" class="form-control" asp-items="@departments">
+                    <option value="">-- Tất cả Khoa --</option>
+                </select>
+            </div>
+        </div>
+                    <div class="col-12 col-md-3">
+            <div class="form-group">
+                            <label for="specialtyId" class="form-label">Chuyên khoa</label>
+                <select id="specialtyId" name="specialtyId" class="form-control" asp-items="@specialties">
+                    <option value="">-- Tất cả Chuyên khoa --</option>
+                </select>
+            </div>
+        </div>
+                    <div class="col-12 col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class='bx bx-search'></i> Tìm kiếm
+                        </button>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">+ Thêm bác sĩ mới</a>
+</div>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        <i class='bx bx-info-circle'></i> Không có thông tin bác sĩ nào để hiển thị với tiêu chí tìm kiếm hiện tại.
+    </div>
+}
+else
+{
+    <table class="table table-striped table-hover responsive-table">
+        <thead>
+            <tr>
+                <th>Ảnh đại diện</th>
+                <th>Tên Bác sĩ</th>
+                <th>Email</th>
+                <th class="d-none d-md-table-cell">Bằng cấp</th>
+                <th class="d-none d-lg-table-cell">Khoa</th>
+                <th class="d-none d-lg-table-cell">Chuyên khoa</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center align-middle">
+                        @if (!string.IsNullOrEmpty(item.AvatarUrl))
+                        {
+                            <img src="@item.AvatarUrl" alt="Ảnh đại diện của @item.Name"
+                                style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto;" />
+                        }
+                        else
+                        {
+                            <img src="/images/default-avatar.png" alt="Ảnh đại diện mặc định"
+                                style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto;" />
+                        }
+                    </td>
+                    <td>
+                        <div class="fw-bold">@Html.DisplayFor(modelItem => item.Name)</div>
+                        <small class="text-muted d-md-none">@Html.DisplayFor(modelItem => item.Degree)</small>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td class="d-none d-md-table-cell text-truncate" style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="@item.Degree">
+                        @item.Degree
+                    </td>
+                    <td class="d-none d-lg-table-cell">@Html.DisplayFor(modelItem => item.DepartmentName)</td>
+                    <td class="d-none d-lg-table-cell">@Html.DisplayFor(modelItem => item.SpecialtyName)</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.DoctorId" class="btn btn-primary">Chi tiết</a>
+                        <a asp-action="Edit" asp-route-id="@item.DoctorId" class="btn btn-info">Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@item.DoctorId" class="btn btn-secondary">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var departmentId = '@currentDepartmentId';
+            if (departmentId) {
+                document.getElementById('departmentId').value = departmentId;
+            }
+
+            var specialtyId = '@currentSpecialtyId';
+            if (specialtyId) {
+                document.getElementById('specialtyId').value = specialtyId;
+            }
+        });
+    </script>
+}

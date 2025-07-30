@@ -1,0 +1,45 @@
+﻿@model IEnumerable<backend.Models.Entities.Department>
+@{
+    ViewData["Title"] = "Danh sách Khoa/Phòng";
+}
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">+ Thêm mới</a>
+</div>
+
+<table class="table table-striped table-hover responsive-table">
+    <thead>
+        <tr>
+            <th>Ảnh</th>
+            <th>Tên Khoa/Phòng</th>
+            <th>Mô tả</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center align-middle">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="Ảnh" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto;" />
+                    }
+                    else
+                    {
+                        <img src="/images/default-avatar.png" alt="Ảnh mặc định" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto;" />
+                    }
+                </td>
+                <td>@item.DepartmentName</td>
+                <td class="text-truncate" style="max-width: 350px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    @item.Description
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.IdDepartment" class="btn btn-primary">Chi tiết</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdDepartment" class="btn btn-info">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdDepartment" class="btn btn-secondary">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

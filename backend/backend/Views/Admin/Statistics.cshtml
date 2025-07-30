@@ -1,0 +1,142 @@
+@model backend.Models.ViewModel.AdminStatisticsViewModel
+@{
+    ViewData["Title"] = "Thống kê tổng quan bệnh viện";
+}
+
+<div class="box-info">
+    <div class="stat-card" style="background: linear-gradient(135deg, #2196f3, #1976d2);">
+        <div class="card-body text-center text-white">
+            <div class="stat-number">@Model.TotalPatients</div>
+            <div class="stat-label">Bệnh nhân</div>
+        </div>
+    </div>
+    
+    <div class="stat-card" style="background: linear-gradient(135deg, #1976d2, #1565c0);">
+        <div class="card-body text-center text-white">
+            <div class="stat-number">@Model.TotalDoctors</div>
+            <div class="stat-label">Bác sĩ</div>
+        </div>
+    </div>
+    
+    <div class="stat-card" style="background: linear-gradient(135deg, #00bcd4, #0097a7);">
+        <div class="card-body text-center text-white">
+            <div class="stat-number">@Model.TotalUsers</div>
+            <div class="stat-label">Người dùng</div>
+        </div>
+    </div>
+    
+    <div class="stat-card" style="background: linear-gradient(135deg, #ffc107, #ff9800);">
+        <div class="card-body text-center text-white">
+            <div class="stat-number">@Model.TotalDepartments</div>
+            <div class="stat-label">Khoa</div>
+        </div>
+    </div>
+    
+    <div class="stat-card" style="background: linear-gradient(135deg, #607d8b, #455a64);">
+        <div class="card-body text-center text-white">
+            <div class="stat-number">@Model.TotalBranches</div>
+            <div class="stat-label">Chi nhánh</div>
+        </div>
+    </div>
+    
+    <div class="stat-card" style="background: linear-gradient(135deg, #e53935, #d32f2f);">
+        <div class="card-body text-center text-white">
+            <div class="stat-number">@Model.TotalServices</div>
+            <div class="stat-label">Dịch vụ</div>
+        </div>
+    </div>
+</div>
+
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>Biểu đồ phân bố người dùng</h3>
+            </div>
+        <div class="chart-container" style="max-height: 300px;">
+            <canvas id="userPieChart" style="max-height: 250px;"></canvas>
+        </div>
+    </div>
+    
+    <div class="order">
+        <div class="head">
+            <h3>Biểu đồ cột tổng quan</h3>
+            </div>
+        <div class="chart-container" style="max-height: 300px;">
+            <canvas id="overviewBarChart" style="max-height: 250px;"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Pie chart: phân bố user
+        const userPieCtx = document.getElementById('userPieChart').getContext('2d');
+        new Chart(userPieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Bệnh nhân', 'Bác sĩ', 'Người dùng khác'],
+                datasets: [{
+                    data: [@Model.TotalPatients, @Model.TotalDoctors, @Model.TotalUsers - @Model.TotalPatients - @Model.TotalDoctors],
+                    backgroundColor: ['#2196f3', '#1976d2', '#00bcd4'],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Bar chart: tổng quan
+        const overviewBarCtx = document.getElementById('overviewBarChart').getContext('2d');
+        new Chart(overviewBarCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Bệnh nhân', 'Bác sĩ', 'Người dùng', 'Khoa', 'Chi nhánh', 'Dịch vụ'],
+                datasets: [{
+                    label: 'Số lượng',
+                    data: [@Model.TotalPatients, @Model.TotalDoctors, @Model.TotalUsers, @Model.TotalDepartments, @Model.TotalBranches, @Model.TotalServices],
+                    backgroundColor: [
+                        '#2196f3', '#1976d2', '#00bcd4', '#ffc107', '#607d8b', '#e53935'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+} 
+} 
+} 

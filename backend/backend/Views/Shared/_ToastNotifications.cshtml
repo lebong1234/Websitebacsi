@@ -1,0 +1,76 @@
+@if (TempData["Success"] != null)
+{
+    <div class="toast-container">
+        <div class="toast show bg-success text-white" role="alert">
+            <div class="toast-header bg-success text-white">
+                <i class='bx bx-check-circle me-2'></i>
+                <strong class="me-auto">Thành công</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Success"]
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="toast-container">
+        <div class="toast show bg-danger text-white" role="alert">
+            <div class="toast-header bg-danger text-white">
+                <i class='bx bx-error-circle me-2'></i>
+                <strong class="me-auto">Lỗi</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Error"]
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["Warning"] != null)
+{
+    <div class="toast-container">
+        <div class="toast show bg-warning text-dark" role="alert">
+            <div class="toast-header bg-warning text-dark">
+                <i class='bx bx-warning me-2'></i>
+                <strong class="me-auto">Cảnh báo</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Warning"]
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["Info"] != null)
+{
+    <div class="toast-container">
+        <div class="toast show bg-info text-white" role="alert">
+            <div class="toast-header bg-info text-white">
+                <i class='bx bx-info-circle me-2'></i>
+                <strong class="me-auto">Thông tin</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Info"]
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+// Auto-hide toasts after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const toasts = document.querySelectorAll('.toast');
+    toasts.forEach(toast => {
+        setTimeout(() => {
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.hide();
+        }, 5000);
+    });
+});
+</script> 

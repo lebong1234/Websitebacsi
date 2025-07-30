@@ -1,0 +1,49 @@
+@model dynamic
+@{
+    var title = ViewData["Title"]?.ToString() ?? "Dữ liệu";
+    var createAction = ViewData["CreateAction"]?.ToString() ?? "Create";
+    var createText = ViewData["CreateText"]?.ToString() ?? "Thêm mới";
+    var showSearch = ViewData["ShowSearch"]?.ToString() == "true";
+    var showPagination = ViewData["ShowPagination"]?.ToString() == "true";
+}
+
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <h3>@title</h3>
+            <div class="d-flex gap-2">
+                @if (showSearch)
+                {
+                    <form asp-action="Search" method="get" class="d-flex">
+                        <input type="search" name="searchString" class="form-control form-control-sm" placeholder="Tìm kiếm..." style="width: 200px;">
+                        <button type="submit" class="btn btn-sm btn-outline-primary ms-2">
+                            <i class='bx bx-search'></i>
+                        </button>
+                    </form>
+                }
+                <a asp-action="@createAction" class="btn btn-primary btn-sm" style="background-color: #2196f3; border-color: #2196f3;">
+                    <i class='bx bx-plus'></i> @createText
+                </a>
+            </div>
+        </div>
+        
+        <div class="responsive-table">
+            <div class="table-responsive">
+                @RenderBody()
+            </div>
+        </div>
+        
+        @if (showPagination)
+        {
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">
+                    Hiển thị @ViewData["StartRecord"] đến @ViewData["EndRecord"] của @ViewData["TotalRecords"] bản ghi
+                </div>
+                @if (ViewData["Pagination"] != null)
+                {
+                    @ViewData["Pagination"]
+                }
+            </div>
+        }
+    </div>
+</div> 

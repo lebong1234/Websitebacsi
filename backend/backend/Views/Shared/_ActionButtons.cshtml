@@ -1,0 +1,70 @@
+@model dynamic
+@{
+    var id = ViewData["Id"]?.ToString() ?? "";
+    var controller = ViewData["Controller"]?.ToString() ?? "";
+    var showEdit = ViewData["ShowEdit"]?.ToString() != "false";
+    var showDelete = ViewData["ShowDelete"]?.ToString() != "false";
+    var showDetails = ViewData["ShowDetails"]?.ToString() == "true";
+    var customActions = ViewData["CustomActions"] as List<dynamic> ?? new List<dynamic>();
+}
+
+<div class="btn-group btn-group-sm" role="group">
+    @if (showDetails)
+    {
+        <a asp-action="Details" asp-route-id="@id" class="btn btn-primary" title="Chi tiết" style="background-color: #2196f3; border-color: #2196f3;">
+            <i class='bx bx-show'></i>
+            <span class="d-none d-md-inline">Chi tiết</span>
+        </a>
+    }
+    
+    @if (showEdit)
+    {
+        <a asp-action="Edit" asp-route-id="@id" class="btn btn-info" title="Sửa" style="background-color: #00bcd4; border-color: #00bcd4;">
+            <i class='bx bx-edit'></i>
+            <span class="d-none d-md-inline">Sửa</span>
+        </a>
+    }
+    
+    @if (showDelete)
+    {
+        <button type="button" class="btn btn-secondary" title="Xóa" 
+                onclick="confirmDelete('@id', '@controller')" style="background-color: #6c757d; border-color: #6c757d;">
+            <i class='bx bx-trash'></i>
+            <span class="d-none d-md-inline">Xóa</span>
+        </button>
+    }
+    
+    @foreach (var action in customActions)
+    {
+        <a asp-action="@action.Action" asp-route-id="@id" 
+           class="btn btn-outline-@action.Color" title="@action.Title">
+            <i class='bx @action.Icon'></i>
+            <span class="d-none d-md-inline">@action.Text</span>
+        </a>
+    }
+</div>
+
+<script>
+function confirmDelete(id, controller) {
+    if (confirm('Bạn có chắc chắn muốn xóa bản ghi này?')) {
+        fetch(`/${controller}/Delete/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Có lỗi xảy ra khi xóa bản ghi');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi xóa bản ghi');
+        });
+    }
+}
+</script> 
